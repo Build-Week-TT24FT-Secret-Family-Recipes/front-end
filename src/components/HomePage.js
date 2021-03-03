@@ -1,9 +1,20 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
-export default function HomePage() {
+export const HomePage = (props) => {
     return (
         <div>
             
         </div>
     )
 }
+
+const mapStateToProps = (state) => ({
+    
+})
+
+const mapDispatchToProps = {
+    
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage)
