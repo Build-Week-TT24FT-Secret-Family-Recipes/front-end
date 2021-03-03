@@ -9,6 +9,6 @@ export const axiosWithAuth = () => {
 		headers: {
 			Authorization: `Bearer ${token}`,
 		},
-		baseURL: "https://jrmmba-foundation.herokuapp.com",
+		baseURL: "https://tttwentyfour-foundation.herokuapp.com/",
 	});
 };
