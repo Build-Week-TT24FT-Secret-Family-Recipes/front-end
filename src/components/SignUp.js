@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import logo from "../assets/logo.png"
 
-const Login = (props) => {
+const SignUp = (props) => {
 	const [credentials, setCredentials] = useState({ username: "", password: "" });
 
 	const login = (e) => {
@@ -35,7 +35,7 @@ const Login = (props) => {
 	return (
 		<>
 		<img src={logo} alt=""/>
-		<h2> Please login young turtle.</h2>
+		<h2> Please create an account</h2>
 		<form onSubmit={login}>
 			<label>
 				Username:
@@ -56,10 +56,10 @@ const Login = (props) => {
 				/>
 			</label>
 			<br/>
-			<button>Log in</button>
+			<button>Sign Up</button>
 		</form>
 		</>
 	);
 };
 
-export default Login;
+export default SignUp;

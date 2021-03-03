@@ -1,26 +1,30 @@
 import React from "react";
 import { Route, Link } from "react-router-dom";
-import Login from "./components/Login";
-import Home from './components/Home'
-import GetUserInfo from "./components/UserInfo";
-import ProtectedRoute from "./components/ProtectedRoute";
+import SignUp from "./components/SignUp";
+import HomePage from './components/HomePage'
+import {Provider} from 'react-redux'
+import {createStore} from 'redux'
+import reducers from './reducers'
 import "./App.css";
 
+
+const store = createStore(reducers)
 function App() {
 	return (
+		<Provider store ={store}>
 		<div className="App">
 			<nav>
 			<Link to ='/'>
 				Home
 			</Link>
-			<Link to ='/login'>
-				Login
+			<Link to ='/signup'>
+			Signup
 			</Link>
 			</nav>
-			<Route exact path="/" component={Home} />
-			<Route exact path='/login' component={Login} />
-			{/* <ProtectedRoute exact path="/userinfo" component={GetUserInfo} /> */}
+			<Route exact path="/" component={HomePage} />
+			<Route exact path='/signup' component={SignUp} />
 		</div>
+		</Provider>
 	);
 }
 
