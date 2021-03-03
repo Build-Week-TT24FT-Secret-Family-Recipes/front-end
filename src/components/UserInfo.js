@@ -24,16 +24,7 @@ const GetUserInfo = (props) => {
 
 	return (
 		<>
-			<div>
-				<h1> Hi, {userData.username}! </h1>
-				<h3> {userData.primaryemail} </h3>
-				<br/>
-				<p>Congratulations! You are now a Back-end developer.</p>
-			</div>
-			<br/>
-			<div className="logout">
-				<button type="button" onClick={logout}> Logout </button>
-			</div>
+	
 		</>
 	);
 };

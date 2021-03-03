@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-// form inputs - title, source, ingredients, instructions, catergory
+// form inputs - title, source, ingredients, instructions, category
 export default function EditRecipeForm() {
     return (
         <div>
