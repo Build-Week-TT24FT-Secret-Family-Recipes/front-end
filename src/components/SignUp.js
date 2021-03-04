@@ -1,16 +1,21 @@
 import React, {useEffect} from 'react'
 import { connect } from "react-redux";
 import formSchema from '../validation/formSchema'
-import {signUpSubmit, setValues, setDisabled, setErrors} from '../actions/signUpActions'
+import {signUpSubmit, setValues, setDisabled, setErrors, clearForm} from '../actions/signUpActions'
 import * as yup from "yup";
 const SignUp = (props) => {
     const {values, errors, disabled} = props
+    const {push} = props.history
     useEffect(() => {
         formSchema
             .isValid(values)
             .then(valid => props.setDisabled(!valid))
             // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [values])
+    useEffect(() => {
+        props.clearForm();
+         // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
         const handleChanges = (e) => {
             const {value, name} = e.target
             yup
@@ -26,7 +31,7 @@ const SignUp = (props) => {
         }
         const handleSubmit = (e) => {
             e.preventDefault();
-            props.signUpSubmit(values.username, values.password, values.email)
+            props.signUpSubmit(values.username, values.password, values.email, push)
         }
     return (
         <div className='new-user'>
@@ -78,4 +83,4 @@ const mapStateToProps = (state) => {
         disabled:state.signup.disabled
     }
 }
-export default connect(mapStateToProps, {setErrors, signUpSubmit,setValues,setDisabled})(SignUp);
+export default connect(mapStateToProps, {setErrors, signUpSubmit,setValues,setDisabled, clearForm})(SignUp);

@@ -1,4 +1,4 @@
-import {SET_ERROR,SET_VALUES,SET_DISABLED} from '../actions/signUpActions'
+import {SET_ERROR,SET_VALUES,SET_DISABLED, CLEAR_FORM} from '../actions/signUpActions'
 const initialState = {
     formValues:{
         username: '',
@@ -29,6 +29,8 @@ const initialState = {
             return  { ...state, 
                 disabled: action.payload
                 }
+    case CLEAR_FORM : 
+        return initialState
     default:
         return state
     }

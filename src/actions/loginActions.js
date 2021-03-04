@@ -1,7 +1,8 @@
 import axios from 'axios'
-import {SET_ERROR} from './signUpActions'
 export const SET_LOGIN_VALUES = "SET_LOGIN_VALUES";
+export const SET_LOGIN_ERROR = "SET_LOGIN_ERROR"
 export const ON_SUCCESS = 'ON_SUCCESS'
+export const CLEAR_LOGIN_FORM = "CLEAR_LOGIN_FORM"
 export const setLoginValues = (value,name) => {
   return { type: SET_LOGIN_VALUES, payload: { name: name, value: value } };
 };
@@ -27,10 +28,10 @@ export const login = (username,password, history) => {
         })
         .catch((err) => {
             console.log(err.response.data.error_description)
-            dispatch({type:SET_ERROR, payload:err.response.data.error_description})
+            dispatch({type:SET_LOGIN_ERROR, payload:err.response.data.error_description})
         })
     }
 }
-export const signUpSubmit = (e) => {
-  e.preventDefault();
-};
+export const clearLoginForm = () => {
+    return {type:CLEAR_LOGIN_FORM}
+}
