@@ -1,13 +1,21 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
 import Recipes from './Recipes'
-export const HomePage = (props) => {
+import {getRecipes} from '../actions/homePageActions'
+const HomePage = (props) => {
+
+
+    useEffect(() => {
+        props.getRecipes();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
     return (
         <div>
           {props.token ? <button>Add new recipe</button> : null
           }
           {props.recipes.map((recipe) => {
-             return <Recipes recipe={recipe}/>
+             return <Recipes recipe={recipe} token={props.token}/>
           })}
         </div>
     )
@@ -18,8 +26,5 @@ const mapStateToProps = (state) => ({
     token:state.homepage.token
 })
 
-const mapDispatchToProps = {
-    
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage)
+export default connect(mapStateToProps, {getRecipes})(HomePage)

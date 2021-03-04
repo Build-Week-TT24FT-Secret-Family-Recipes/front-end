@@ -3,13 +3,13 @@ import { Route, Link } from "react-router-dom";
 import Login from "./components/Login";
 import HomePage from './components/HomePage'
 import {Provider} from 'react-redux'
-import {createStore} from 'redux'
-import reducers from './reducers'
+import {createStore, applyMiddleware} from 'redux'
+import reducer from './reducers'
 import SignUp from './components/SignUp'
 import "./App.css";
+import thunk from 'redux-thunk'
 
-
-const store = createStore(reducers)
+const store = createStore(reducer, applyMiddleware(thunk))
 function App() {
 	return (
 		<Provider store ={store}>

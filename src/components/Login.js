@@ -1,52 +1,30 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React from "react";
 import logo from "../assets/logo.png"
-
+import {connect} from 'react-redux'
+import {setLoginValues, login} from '../actions/loginActions'
 const Login = (props) => {
-	const [credentials, setCredentials] = useState({ username: "", password: "" });
-
-	const login = (e) => {
+	const {username, password} = props
+	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log('test')
-		axios
-			.post(
-				"https://tttwentyfour-foundation.herokuapp.com/login",
-				`grant_type=password&username=${credentials.username}&password=${credentials.password}`,
-				{
-					headers: {
-						// btoa is converting our client id/client secret into base64
-						Authorization: `Basic ${btoa("lambda-client:lambda-secret")}`,
-						"Content-Type": "application/x-www-form-urlencoded",
-					},
-				},
-			)
-			.then((res) => {
-				console.log(res.data);
-				localStorage.setItem("token", res.data.access_token);
-				props.history.push("/home");
-			})
-			.catch((err) => {
-				console.log(err.response.data.error_description)
-			})
+		props.login(username, password, props.history);
 	};
 
-	const handleChange = (e) =>
-		setCredentials({
-			...credentials,
-			[e.target.name]: e.target.value,
-		});
+	const handleChange = (e) =>{
+		const {value, name} = e.target
+		props.setLoginValues(value, name)
+		}
 
 	return (
 		<>
 		<img src={logo} alt=""/>
 		<h2> Please Login</h2>
-		<form onSubmit={login}>
+		<form onSubmit={handleSubmit}>
 			<label>
 				Username:
 				<input
 					type="text"
 					name="username"
-					value={credentials.username}
+					value={username}
 					onChange={handleChange}
 				/>
 			</label>
@@ -55,7 +33,7 @@ const Login = (props) => {
 				<input
 					type="password"
 					name="password"
-					value={credentials.password}
+					value={password}
 					onChange={handleChange}
 				/>
 			</label>
@@ -66,4 +44,10 @@ const Login = (props) => {
 	);
 };
 
-export default Login;
+const mapStateToProps = (state) => {
+	return {
+		username:state.login.username,
+		password:state.login.password
+	}
+}
+export default connect(mapStateToProps, {setLoginValues, login})(Login);
