@@ -2,7 +2,6 @@ import {GET_RECIPES} from '../actions/homePageActions'
 
 const initialState = {
     recipes:[],
-    token:false
 }
 
  const homePageReducer = (state = initialState, action) => {
