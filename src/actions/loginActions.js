@@ -1,5 +1,6 @@
 import axios from 'axios'
 export const SET_LOGIN_VALUES = "SET_LOGIN_VALUES";
+export const SET_TOKEN = 'SET_TOKEN'
 export const setLoginValues = (value,name) => {
   return { type: SET_LOGIN_VALUES, payload: { name: name, value: value } };
 };
@@ -20,6 +21,7 @@ export const login = (username,password, history) => {
         .then((res) => {
             console.log(res.data);
             localStorage.setItem("token", res.data.access_token);
+            dispatch({type:SET_TOKEN})
             history.push("/home");
         })
         .catch((err) => {

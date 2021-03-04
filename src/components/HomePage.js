@@ -23,7 +23,7 @@ const HomePage = (props) => {
 
 const mapStateToProps = (state) => ({
     recipes:state.homepage.recipes,
-    token:state.homepage.token
+    token:state.login.token
 })
 
 
