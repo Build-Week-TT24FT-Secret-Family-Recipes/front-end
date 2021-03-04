@@ -1,7 +1,10 @@
 import {combineReducers} from 'redux'
-import HomePageReducer from './HomePageReducer'
-
+import homePageReducer from './homePageReducer'
+import loginReducer from './loginReducer';
+import signUpReducer from './signUpReducer'
 
 export default combineReducers({
-    homepage: HomePageReducer,
+    homepage: homePageReducer,
+    signup: signUpReducer,
+    login: loginReducer
    });

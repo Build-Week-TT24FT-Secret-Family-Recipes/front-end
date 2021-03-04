@@ -1,60 +1,81 @@
-import React, {useState, useEffect} from 'react'
-import * as yup from 'yup'
-import UserForm from './UserForm'
+import React, {useEffect} from 'react'
+import { connect } from "react-redux";
 import formSchema from '../validation/formSchema'
-
-
-const initialFormValues = {
-        username: '',
-        email: '',
-        password: ''
-    }
-const initialFormErrors = {
-        username: '',
-        email: '',
-        password: ''
-    }
-const initialDisabled = true;
-
-function SignUp() {
-    const [formValues, setFormValues] = useState(initialFormValues);
-    const [formErrors, setFormErrors] = useState(initialFormErrors);
-    const [disabled, setDisabled] = useState(initialDisabled);
-    const inputChange = (name, value) => {
-        yup
-            .reach(formSchema, name)
-            .validate(value)
-            .then(() => {
-                setFormErrors({...formErrors, [name]: ''})
-            })
-            .catch(err => {
-                setFormErrors({...formErrors, [name]: err.errors[0]})
-            })
-        setFormValues({
-            ...formValues,
-            [name]: value
-        })
-    }
+import {signUpSubmit, setValues, setDisabled, setErrors} from '../actions/signUpActions'
+import * as yup from "yup";
+const SignUp = (props) => {
+    const {values, errors, disabled} = props
     useEffect(() => {
         formSchema
-            .isValid(formValues)
-            .then(valid => setDisabled(!valid))
-    }, [formValues])
-
-    const formSubmit = () => {
-         
-    }
-
+            .isValid(values)
+            .then(valid => props.setDisabled(!valid))
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [values])
+        const handleChanges = (e) => {
+            const {value, name} = e.target
+            yup
+            .reach(formSchema,name)
+            .validate(value)
+            .then(() => {
+                props.setErrors(name ,'')
+            })
+            .catch(err => {
+                props.setErrors(name, err.errors[0])
+            })
+            props.setValues(value,name)
+        }
+        const handleSubmit = (e) => {
+            e.preventDefault();
+            props.signUpSubmit()
+        }
     return (
         <div className='new-user'>
-            <UserForm
-                values={formValues}
-                submit={formSubmit}
-                change={inputChange}
-                disabled={disabled}
-                errors={formErrors}
-            />
+           <form onSubmit={handleSubmit}>
+            <h3>Please Enter Your Information</h3>
+            
+            <div className='errors'>
+                <div>{errors.username}</div>
+                <div>{errors.email}</div>
+                <div>{errors.password}</div>
+            </div>
+            <div className='inputs'>
+                <label>Username:
+                    <input
+                        name='username'
+                        type='text'
+                        onChange={handleChanges}
+                        value={values.username}
+                        placeholder='Please enter your username in lower case'
+                    />
+                </label>
+                <label>Email:
+                    <input
+                        name='email'
+                        type='text'
+                        onChange={handleChanges}
+                        value={values.email}
+                    />
+                </label>
+                <label>Password:
+                    <input
+                        type='password'
+                        name='password'
+                        onChange={handleChanges}
+                        value={values.password}
+                    />
+                </label>
+            </div>
+            <button disabled={disabled}>Submit</button>
+        </form>
         </div>
     )
 }
-export default SignUp;
+
+const mapStateToProps = (state) => {
+    return {
+        values:state.signup.formValues,
+        errors:state.signup.formErrors,
+        disabled:state.signup.disabled
+    }
+}
+export default connect(mapStateToProps, {setErrors, signUpSubmit,setValues,setDisabled})(SignUp);
