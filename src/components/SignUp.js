@@ -1,65 +1,60 @@
-import React, { useState } from "react";
-import axios from "axios";
-import logo from "../assets/logo.png"
+import React, {useState, useEffect} from 'react'
+import * as yup from 'yup'
+import UserForm from './UserForm'
+import formSchema from '../validation/formSchema'
 
-const SignUp = (props) => {
-	const [credentials, setCredentials] = useState({ username: "", password: "" });
 
-	const login = (e) => {
-		e.preventDefault();
-		axios
-			.post(
-				"https://tttwentyfour-foundation.herokuapp.com/login",
-				`grant_type=password&username=${credentials.username}&password=${credentials.password}`,
-				{
-					headers: {
-						// btoa is converting our client id/client secret into base64
-						Authorization: `Basic ${btoa("lambda-client:lambda-secret")}`,
-						"Content-Type": "application/x-www-form-urlencoded",
-					},
-				},
-			)
-			.then((res) => {
-				console.log(res.data);
-				localStorage.setItem("token", res.data.access_token);
-				props.history.push("/userinfo");
-			});
-	};
+const initialFormValues = {
+        username: '',
+        email: '',
+        password: ''
+    }
+const initialFormErrors = {
+        username: '',
+        email: '',
+        password: ''
+    }
+const initialDisabled = true;
 
-	const handleChange = (e) =>
-		setCredentials({
-			...credentials,
-			[e.target.name]: e.target.value,
-		});
+function SignUp() {
+    const [formValues, setFormValues] = useState(initialFormValues);
+    const [formErrors, setFormErrors] = useState(initialFormErrors);
+    const [disabled, setDisabled] = useState(initialDisabled);
+    const inputChange = (name, value) => {
+        yup
+            .reach(formSchema, name)
+            .validate(value)
+            .then(() => {
+                setFormErrors({...formErrors, [name]: ''})
+            })
+            .catch(err => {
+                setFormErrors({...formErrors, [name]: err.errors[0]})
+            })
+        setFormValues({
+            ...formValues,
+            [name]: value
+        })
+    }
+    useEffect(() => {
+        formSchema
+            .isValid(formValues)
+            .then(valid => setDisabled(!valid))
+    }, [formValues])
 
-	return (
-		<>
-		<img src={logo} alt=""/>
-		<h2> Please create an account</h2>
-		<form onSubmit={login}>
-			<label>
-				Username:
-				<input
-					type="text"
-					name="username"
-					value={credentials.username}
-					onChange={handleChange}
-				/>
-			</label>
-			<label>
-				password:
-				<input
-					type="password"
-					name="password"
-					value={credentials.password}
-					onChange={handleChange}
-				/>
-			</label>
-			<br/>
-			<button>Sign Up</button>
-		</form>
-		</>
-	);
-};
+    const formSubmit = () => {
+         
+    }
 
+    return (
+        <div className='new-user'>
+            <UserForm
+                values={formValues}
+                submit={formSubmit}
+                change={inputChange}
+                disabled={disabled}
+                errors={formErrors}
+            />
+        </div>
+    )
+}
 export default SignUp;
