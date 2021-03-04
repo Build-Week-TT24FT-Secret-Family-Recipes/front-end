@@ -12,5 +12,15 @@ const formSchema = yup.object().shape({
     password: yup.string()
         .required('Password is required')
         .min(7, 'Password must be 7 characters or longer.'),
+    title: yup.string()
+        .required('Title is required.'),
+    source: yup.string()
+        .required('Source is required.'),
+    ingredients: yup.string()
+        .required('Ingredients is required.'),
+    instructions: yup.string()
+        .required('Instructions is required.'),
+    category: yup.string()
+        .required('Category is required.'),
 });
 export default formSchema;
