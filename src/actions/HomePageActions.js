@@ -8,14 +8,14 @@ export const FETCH_FAIL = 'FETCH_FAIL'
 export const getRecipes = () => {
     return dispatch => {
         dispatch({type:START_FETCH})
-        axiosWithAuth().get(`/recipes/recipes`)
+        axiosWithAuth().get(`recipes/recipes`)
         .then((res) => {
             console.log(res)
-            dispatch({type:GET_RECIPES, payload:"res in here"})
+            // dispatch({type:GET_RECIPES, payload:res.data})
         })
         .catch((err) => {
-            console.log(err)
-            dispatch({type:FETCH_FAIL, payload:"res in here"})
+            console.log(err.response.data.error_description)
+            // dispatch({type:FETCH_FAIL, payload:error})
         })
     }
 }

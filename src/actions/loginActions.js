@@ -1,6 +1,7 @@
 import axios from 'axios'
+import {SET_ERROR} from './signUpActions'
 export const SET_LOGIN_VALUES = "SET_LOGIN_VALUES";
-export const SET_TOKEN = 'SET_TOKEN'
+export const ON_SUCCESS = 'ON_SUCCESS'
 export const setLoginValues = (value,name) => {
   return { type: SET_LOGIN_VALUES, payload: { name: name, value: value } };
 };
@@ -21,11 +22,12 @@ export const login = (username,password, history) => {
         .then((res) => {
             console.log(res.data);
             localStorage.setItem("token", res.data.access_token);
-            dispatch({type:SET_TOKEN})
-            history.push("/home");
+            dispatch({type:ON_SUCCESS})
+            history.push("/");
         })
         .catch((err) => {
             console.log(err.response.data.error_description)
+            dispatch({type:SET_ERROR, payload:err.response.data.error_description})
         })
     }
 }

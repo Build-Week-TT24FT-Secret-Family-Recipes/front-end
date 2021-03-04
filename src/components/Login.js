@@ -18,6 +18,7 @@ const Login = (props) => {
 		<>
 		<img src={logo} alt=""/>
 		<h2> Please Login</h2>
+		{props.error ? <div>{props.error}</div>: null }
 		<form onSubmit={handleSubmit}>
 			<label>
 				Username:
@@ -47,7 +48,8 @@ const Login = (props) => {
 const mapStateToProps = (state) => {
 	return {
 		username:state.login.username,
-		password:state.login.password
+		password:state.login.password,
+		error:state.login.error
 	}
 }
 export default connect(mapStateToProps, {setLoginValues, login})(Login);

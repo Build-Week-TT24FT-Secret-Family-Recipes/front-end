@@ -1,18 +1,21 @@
-import {SET_LOGIN_VALUES, SET_TOKEN} from '../actions/loginActions'
-
+import {SET_LOGIN_VALUES, ON_SUCCESS} from '../actions/loginActions'
+import {SET_ERROR} from '../actions/signUpActions'
 
 const initialState = {
     username:'',
     password:'',
+    error:'',
     token:false
 }
 
-const loginReducer =(state = initialState, { type, payload }) => {
+const loginReducer = (state = initialState, { type, payload }) => {
     switch (type) {
     case SET_LOGIN_VALUES:
         return {...state, [payload.name] : payload.value}
-    case SET_TOKEN:
-        return {...state, token:true}
+    case ON_SUCCESS:
+        return {...initialState, token:true}
+    case SET_ERROR:
+        return {...state, error:payload}
     default:
         return state
     }

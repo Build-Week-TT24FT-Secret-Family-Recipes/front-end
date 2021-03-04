@@ -26,7 +26,7 @@ const SignUp = (props) => {
         }
         const handleSubmit = (e) => {
             e.preventDefault();
-            props.signUpSubmit()
+            props.signUpSubmit(values.username, values.password, values.email)
         }
     return (
         <div className='new-user'>
