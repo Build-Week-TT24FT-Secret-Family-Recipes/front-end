@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import * as yup from 'yup'
-import formSchema from '../validation/formSchema'
+import recipeFormSchema from '../validation/recipeFormSchema'
 // form inputs - title, source, ingredients, instructions, category 
 const initialErrors = {
     title: '',
@@ -22,7 +22,7 @@ export default function NewRecipeForm(props) {
     const [errors, setErrors] = useState(initialErrors);
     const onChange = (name, value) => {
         yup
-            .reach(formSchema, name)
+            .reach(recipeFormSchema, name)
             .validate(value)
             .then(() => {
                 setErrors({...errors, [name]: ''})
