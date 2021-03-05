@@ -20,7 +20,7 @@ export const signUpSubmit = (username,password, email, push) => {
     })
     .catch((err) => {
         console.log(err.response)
-        // dispatch({type:SET_ERROR, payload:err.response.data.error_description})
+        dispatch({type:SET_ERROR, payload:err.response.data.error_description})
     })
 }
 };
