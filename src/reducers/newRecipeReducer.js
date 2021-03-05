@@ -29,6 +29,7 @@ const initialState = {
     case RESET_RECIPE_FORM:
         return initialState
     case SET_RECIPE_CATEGORY:
+        console.log('test')
         return { ...state, 
             formValues:{...state.formValues, category:{name:action.payload.name, categoryid:action.payload.categoryid}}
         }
