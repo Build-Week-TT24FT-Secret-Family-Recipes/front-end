@@ -9,7 +9,8 @@ const recipeFormSchema = yup.object().shape({
         .required('Ingredients is required.'),
     instructions: yup.string()
         .required('Instructions is required.'),
-    category: yup.string()
+     category: yup.string()
+        .oneOf(['French', 'Japanese', 'Chinese','Spanish', 'Italian'])
         .required('Category is required.'),
 });
 export default recipeFormSchema;

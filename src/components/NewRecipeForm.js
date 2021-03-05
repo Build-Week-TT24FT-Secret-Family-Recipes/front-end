@@ -1,13 +1,19 @@
 import React from 'react'
 import * as yup from 'yup'
 import recipeFormSchema from '../validation/recipeFormSchema'
-import {setRecipeForm, setRecipeErrors, resetRecipeForm,addRecipe} from '../actions/newRecipeActions'
+import {setRecipeForm, setRecipeErrors, resetRecipeForm,addRecipe, setRecipeCategory} from '../actions/newRecipeActions'
+import {setButton} from '../actions/homePageActions'
 import {connect} from 'react-redux'
+    
 function NewRecipeForm(props) {
     const {values, errors} = props;
     const handleSubmit = (e) => {
         e.preventDefault();
         props.addRecipe(props.values)
+    }
+    const handleCancel = () => {
+        props.resetRecipeForm();
+        props.setButton();
     }
     const onChange = (e) => {
         const {name, value} = e.target
@@ -20,6 +26,7 @@ function NewRecipeForm(props) {
             .catch(err => {
                 props.setRecipeErrors(name ,err.errors[0])
             })
+            name === 'category' ? props.setRecipeCategory(value):
            props.setRecipeForm(name,value);
     }
     return (
@@ -45,9 +52,17 @@ function NewRecipeForm(props) {
                 <input name='instructions' type='text' value={values.instructions} onChange={onChange} />
             </label>
             <label>Category:
-                <input name='category' type='text' value={values.category} onChange={onChange} />
+          <select onChange={onChange} value={values.category.name} name="category">
+            <option value="">- Select an option -</option>
+            <option value={"French"}>French</option>
+            <option value={"Japanese"}>Japanese</option>
+            <option value={"Chinese"}>Chinese</option>
+            <option value={"Spanish"}>Spanish</option>
+            <option value={"Italian"}>Italian</option>
+          </select>
             </label>
             <button>Add recipe</button> 
+            <button onClick={handleCancel}>Cancel</button>
         </form >
     )
 }
@@ -57,4 +72,4 @@ const mapStateToProps = (state) => {
         errors: state.newRecipe.errors,
     }
 }
-export default connect(mapStateToProps, {setRecipeForm, setRecipeErrors, resetRecipeForm, addRecipe})(NewRecipeForm)
+export default connect(mapStateToProps, {setRecipeForm, setRecipeErrors, resetRecipeForm, addRecipe, setButton, setRecipeCategory})(NewRecipeForm)

@@ -27,6 +27,18 @@ export const setNewRecipe = () => {
 export const setButton = () => {
     return {type:SET_BUTTON}
 }
+export const deleteRecipe = (id) => {
+    console.log(id)
+    return dispatch => {
+        axiosWithAuth().delete(`/recipes/recipe/${id}`)
+        .then((res) => {
+            console.log(res)
+        })
+        .catch((err) => {
+            console.log(err.response)
+        })
+    }
+}
 // "/recipes/recipes" for the Get items
 //  "/recipes/recipe/{recipeid}" for Edit item
 //  "/recipes/recipe/{id}" for Delete item.
