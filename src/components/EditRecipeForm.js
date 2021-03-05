@@ -27,7 +27,7 @@ function EditRecipeForm(props) {
             .catch(err => {
                 props.setEditRecipeErrors(name ,err.errors[0])
             })
-            name === 'category' ? props.setEditRecipeCategory(value):
+            name === 'category' ? props.setEditRecipeCategory(value, props.categoryList):
            props.setEditRecipeForm(name,value);
     }
     return (
@@ -71,7 +71,8 @@ const mapStateToProps = (state) => {
     return {
         values: state.editRecipe.formValues,
         errors: state.editRecipe.errors,
-        currentRecipe: state.homepage.currentRecipe
+        currentRecipe: state.homepage.currentRecipe,
+        categoryList: state.homepage.categoryid
     }
 }
 export default connect(mapStateToProps, {setEditRecipeForm, setEditRecipeErrors, resetEditRecipeForm,setEditRecipe, editRecipe, setEditRecipeCategory})(EditRecipeForm)

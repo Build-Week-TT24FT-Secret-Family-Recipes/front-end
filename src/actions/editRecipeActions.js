@@ -8,19 +8,12 @@ export const SET_EDIT_RECIPE_ERRORS = 'SET_EDIT_RECIPE_ERRORS'
 
 
 
-export const setEditRecipeCategory = (value) => {
-    if (value === 'French')
-    return {type:SET_EDIT_RECIPE_CATEGORY,payload:{name:value, categoryid:177}}
-    else if(value === 'Japanese')
-        return {type:SET_EDIT_RECIPE_CATEGORY,payload:{name:value, categoryid:178}}
-    else if(value === 'Chinese')
-    return {type:SET_EDIT_RECIPE_CATEGORY,payload:{name:value, categoryid:179}}
-    else if(value === 'Spanish')
-    return {type:SET_EDIT_RECIPE_CATEGORY,payload:{name:value, categoryid:180}}
-    else if(value === 'Italian')
-    return {type:SET_EDIT_RECIPE_CATEGORY,payload:{name:value, categoryid:181}}
-    else
-        return {}
+export const setEditRecipeCategory = (value, categoryList) => {
+    return dispatch => {
+        categoryList.map((category) => {
+            return category.name === value ? dispatch({type:SET_EDIT_RECIPE_CATEGORY, payload:category}) : dispatch({type:''})
+          })
+    }
 
 }
 export const setEditRecipeForm = (name, value) => {

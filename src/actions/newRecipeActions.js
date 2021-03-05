@@ -5,20 +5,12 @@ export const SET_RECIPE_ERRORS = "SET_RECIPE_ERRORS"
 export const RESET_RECIPE_FORM = 'RESET_RECIPE_FORM'
 export const SET_RECIPE_CATEGORY = 'SET_RECIPE_CATEGORY'
  
-export const setRecipeCategory = (value) => {
-        if (value === 'French')
-        return {type:SET_RECIPE_CATEGORY,payload:{name:value, categoryid:177}}
-        else if(value === 'Japanese')
-            return {type:SET_RECIPE_CATEGORY,payload:{name:value, categoryid:178}}
-        else if(value === 'Chinese')
-        return {type:SET_RECIPE_CATEGORY,payload:{name:value, categoryid:179}}
-        else if(value === 'Spanish')
-        return {type:SET_RECIPE_CATEGORY,payload:{name:value, categoryid:180}}
-        else if(value === 'Italian')
-        return {type:SET_RECIPE_CATEGORY,payload:{name:value, categoryid:181}}
-        else
-            return {}
-
+export const setRecipeCategory = (value, categoryList) => {
+    return dispatch => {
+        categoryList.map((category) => {
+            return category.name === value ? dispatch({type:SET_RECIPE_CATEGORY, payload:category}) : dispatch({type:''})
+          })
+    }
 }
 export const setRecipeForm = (name, value) => {
     return {type:SET_RECIPE_VALUES, payload:{name:name, value:value}}
