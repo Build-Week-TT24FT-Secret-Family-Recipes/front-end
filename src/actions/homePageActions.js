@@ -7,14 +7,17 @@ export const SET_BUTTON='SET_BUTTON'
 export const SET_HOME_ERROR = 'SET_HOME_ERROR'
 export const GET_TOKEN = 'GET_TOKEN'
 export const EDIT_RECIPE = 'EDIT_RECIPE'
+export const SET_CATEGORY_ID = 'SET_CATEGORY_ID'
 
 export const getRecipes = () => {
-    console.log('run')
     return dispatch => {
         dispatch({type:START_FETCH})
         axiosWithAuth().get('recipes/recipes')
         .then((res) => {
             dispatch({type:GET_RECIPES, payload:res.data})
+            dispatch({type:SET_CATEGORY_ID, payload:res.data.map((recipe) => {
+                return recipe.category
+            })})
         })
         .catch((err) => {
             console.log(err.response.data.error_description)

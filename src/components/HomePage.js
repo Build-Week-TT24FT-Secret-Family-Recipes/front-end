@@ -42,6 +42,7 @@ const mapStateToProps = (state) => {
         error: state.homepage.error,
         newRecipe:state.homepage.newRecipe,
         toggleButton: state.homepage.toggleButton,
+        
     }
 }
     
