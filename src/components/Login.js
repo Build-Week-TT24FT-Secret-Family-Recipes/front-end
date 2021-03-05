@@ -1,16 +1,20 @@
 import React, {useEffect} from "react";
 import logo from "../assets/logo.png"
 import {connect} from 'react-redux'
+import {useHistory} from 'react-router-dom'
 import {setLoginValues, login, clearLoginForm} from '../actions/loginActions'
+import {setHomeError} from '../actions/homePageActions'
 const Login = (props) => {
 	const {username, password} = props
+	const { push } = useHistory();
 	useEffect(() => {
 		props.clearLoginForm();
 		 // eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		props.login(username, password, props.history);
+		props.login(username, password, push);
+		props.setHomeError();
 	};
 	
 	const handleChange = (e) =>{
@@ -56,4 +60,4 @@ const mapStateToProps = (state) => {
 		error:state.login.error
 	}
 }
-export default connect(mapStateToProps, {setLoginValues, login, clearLoginForm})(Login);
+export default connect(mapStateToProps, {setLoginValues, login, clearLoginForm, setHomeError})(Login);

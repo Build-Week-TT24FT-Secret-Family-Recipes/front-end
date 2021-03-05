@@ -8,8 +8,9 @@ import {connect} from 'react-redux'
 function NewRecipeForm(props) {
     const {values, errors} = props;
     const handleSubmit = (e) => {
-        e.preventDefault();
         props.addRecipe(props.values)
+        props.resetRecipeForm();
+        props.setButton();
     }
     const handleCancel = () => {
         props.resetRecipeForm();

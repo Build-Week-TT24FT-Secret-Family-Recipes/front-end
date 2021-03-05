@@ -1,4 +1,5 @@
 import axiosWithAuth from '../utils/axiosWithAuth'
+import {getRecipes} from '../actions/homePageActions'
 export const SET_RECIPE_VALUES = 'SET_RECIPE_VALUES'
 export const SET_RECIPE_ERRORS = "SET_RECIPE_ERRORS"
 export const RESET_RECIPE_FORM = 'RESET_RECIPE_FORM'
@@ -30,11 +31,10 @@ export const resetRecipeForm = () => {
     return {type:RESET_RECIPE_FORM}
 }
 export const addRecipe = (recipe) => {
-    console.log(recipe)
     return dispatch => {
         axiosWithAuth().post('recipes/recipe', recipe)
         .then((res) => {
-            console.log(res)
+            dispatch(getRecipes());
         })
         .catch((err) => {
             console.log(err.response)

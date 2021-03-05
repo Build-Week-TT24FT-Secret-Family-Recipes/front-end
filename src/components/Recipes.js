@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default function Recipes(props) {
-    const onDelete = () => {
+    const onDelete = (e) => {
         props.handleDelete(props.recipe.recipeid)
     }
     return (

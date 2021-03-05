@@ -4,6 +4,8 @@ export const START_FETCH = "START_FETCH"
 export const GET_RECIPES = 'GET_RECIPES'
 export const FETCH_FAIL = 'FETCH_FAIL'
 export const SET_BUTTON='SET_BUTTON'
+export const SET_HOME_ERROR = 'SET_HOME_ERROR'
+export const GET_TOKEN = 'GET_TOKEN'
 
 
 export const getRecipes = () => {
@@ -20,7 +22,15 @@ export const getRecipes = () => {
         })
     }
 }
-
+export const getToken = () => {
+    if(localStorage.getItem('token')) 
+    return {type:GET_TOKEN}
+    else 
+    return{type:''}
+}
+export const setHomeError = () => {
+    return {type:SET_HOME_ERROR}
+}
 export const setNewRecipe = () => {
     return {type:SET_NEW_RECIPE}
 }
@@ -28,11 +38,10 @@ export const setButton = () => {
     return {type:SET_BUTTON}
 }
 export const deleteRecipe = (id) => {
-    console.log(id)
     return dispatch => {
         axiosWithAuth().delete(`/recipes/recipe/${id}`)
         .then((res) => {
-            console.log(res)
+           dispatch(getRecipes())
         })
         .catch((err) => {
             console.log(err.response)
