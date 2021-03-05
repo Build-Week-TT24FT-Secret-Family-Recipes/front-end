@@ -1,14 +1,11 @@
 import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
 import Recipes from './Recipes'
-import {getRecipes, setNewRecipe, setButton} from '../actions/homePageActions'
+import {getRecipes, setNewRecipe, setButton, deleteRecipe} from '../actions/homePageActions'
 import NewRecipeForm from '../components/NewRecipeForm'
 const HomePage = (props) => {
-
-    const handleCancel = () => {
-        // props.resetRecipeForm();
-        // e.preventDefault();
-        props.setButton();
+    const handleDelete = (id) => {
+        props.deleteRecipe(id);
     }
     const handleAddButton = (e) => {
         props.setNewRecipe();
@@ -25,7 +22,6 @@ const HomePage = (props) => {
           {props.newRecipe ?
           <div> 
               <NewRecipeForm />
-            <button onClick={handleCancel}>Cancel</button>
           </div>
 
                : null}
@@ -33,8 +29,8 @@ const HomePage = (props) => {
             props.error ? <div>{props.error}</div> :
             
               props.recipes.map((recipe) => {
-                console.log(recipe)
-            return <Recipes key={recipe.recipeid} recipe={recipe} token={props.token}/>
+            
+            return <Recipes key={recipe.recipeid} recipe={recipe} token={props.token} handleDelete={handleDelete} />
          })}
          
         </div>
@@ -54,4 +50,4 @@ const mapStateToProps = (state) => {
     
 
 
-export default connect(mapStateToProps, {getRecipes, setNewRecipe, setButton})(HomePage)
+export default connect(mapStateToProps, {getRecipes, setNewRecipe, setButton, deleteRecipe})(HomePage)
