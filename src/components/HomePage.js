@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
 import Recipes from './Recipes'
-import {getRecipes, setNewRecipe, setButton, getToken} from '../actions/homePageActions'
+import {getRecipes, setNewRecipe, setButton, getToken, filterRecipes} from '../actions/homePageActions'
 import NewRecipeForm from '../components/NewRecipeForm'
 const HomePage = (props) => {
     
@@ -14,7 +14,9 @@ const HomePage = (props) => {
         props.getRecipes();
           // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-    
+    const handleFilter = (category) => {
+        props.filterRecipes(category, props.recipes);
+    }
     return (
         
         <div>
@@ -27,7 +29,20 @@ const HomePage = (props) => {
                : null}
           {props.isLoading ? <div>Loading recipes...</div> :
             props.error ? <div>You must be logged in to see recipes</div> :
+            <div> 
+                <div>
+            Filter recipes by category :
+            <button onClick={() => {handleFilter('French')}}>French</button>
+            <button onClick={() => {handleFilter('Japanese')}}>Japanese</button>
+            <button onClick={() => {handleFilter('Chinese')}}>Chinese</button>
+            <button onClick={() => {handleFilter('Spanish')}}>Spanish</button>
+            <button onClick={() => {handleFilter('Italian')}}>Italian</button>
+                </div>
+
             <Recipes /> 
+
+             </div>
+            
          }
          
         </div>
@@ -42,10 +57,10 @@ const mapStateToProps = (state) => {
         error: state.homepage.error,
         newRecipe:state.homepage.newRecipe,
         toggleButton: state.homepage.toggleButton,
-        
+
     }
 }
     
 
 
-export default connect(mapStateToProps, {getRecipes, setNewRecipe, setButton, getToken})(HomePage)
+export default connect(mapStateToProps, {getRecipes, setNewRecipe, setButton, getToken, filterRecipes})(HomePage)

@@ -8,6 +8,7 @@ export const SET_HOME_ERROR = 'SET_HOME_ERROR'
 export const GET_TOKEN = 'GET_TOKEN'
 export const EDIT_RECIPE = 'EDIT_RECIPE'
 export const SET_CATEGORY_ID = 'SET_CATEGORY_ID'
+export const FILTER_RECIPES = 'FILTER_RECIPES'
 
 export const getRecipes = () => {
     return dispatch => {
@@ -54,4 +55,12 @@ export const deleteRecipe = (id) => {
             console.log(err.response)
         })
     }
+}
+export const filterRecipes = (category, recipes) => {
+        return dispatch => {
+
+                dispatch({type:FILTER_RECIPES, payload: recipes.filter((recipe) => {
+                    return recipe.category.name === category
+                })})
+        }
 }

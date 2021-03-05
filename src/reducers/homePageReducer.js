@@ -1,7 +1,8 @@
-import {GET_RECIPES, START_FETCH, FETCH_FAIL, SET_NEW_RECIPE, SET_BUTTON, SET_HOME_ERROR, GET_TOKEN, EDIT_RECIPE, SET_CATEGORY_ID} from '../actions/homePageActions'
+import {GET_RECIPES, START_FETCH, FETCH_FAIL, SET_NEW_RECIPE, SET_BUTTON, SET_HOME_ERROR, GET_TOKEN, EDIT_RECIPE, SET_CATEGORY_ID, FILTER_RECIPES} from '../actions/homePageActions'
 
 const initialState = {
     recipes:[],
+    filteredRecipes: [],
     isLoading:false,
     error:'',
     newRecipe: false,
@@ -9,7 +10,8 @@ const initialState = {
     token:false,
     edit: false,
     currentRecipe: '',
-    categoryid:[]
+    categoryid:[],
+    toggleFiltered: false
 }
 
  const homePageReducer = (state = initialState, action) => {
@@ -32,6 +34,8 @@ const initialState = {
         return {...state, edit:!state.edit, currentRecipe: action.payload}
     case SET_CATEGORY_ID : 
     return {...state, categoryid:action.payload}
+    case FILTER_RECIPES:
+        return {...state, filteredRecipes:action.payload, toggleFiltered: !state.toggleFiltered}
     default:
         return state
     }
