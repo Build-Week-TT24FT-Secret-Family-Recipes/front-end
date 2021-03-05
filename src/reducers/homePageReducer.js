@@ -1,4 +1,4 @@
-import {GET_RECIPES, START_FETCH, FETCH_FAIL, SET_NEW_RECIPE, SET_BUTTON, SET_HOME_ERROR, GET_TOKEN} from '../actions/homePageActions'
+import {GET_RECIPES, START_FETCH, FETCH_FAIL, SET_NEW_RECIPE, SET_BUTTON, SET_HOME_ERROR, GET_TOKEN, EDIT_RECIPE} from '../actions/homePageActions'
 
 const initialState = {
     recipes:[],
@@ -6,7 +6,9 @@ const initialState = {
     error:'',
     newRecipe: false,
     toggleButton: true,
-    token:false
+    token:false,
+    edit: false,
+    currentRecipe: ''
 }
 
  const homePageReducer = (state = initialState, action) => {
@@ -25,6 +27,8 @@ const initialState = {
         return {...state, error:''}
     case GET_TOKEN:
         return {...state, token:true}
+    case EDIT_RECIPE :
+        return {...state, edit:!state.edit, currentRecipe: action.payload}
     default:
         return state
     }

@@ -1,43 +1,38 @@
-import React, {useState} from 'react'
+import React from 'react'
 import * as yup from 'yup'
-import formSchema from '../validation/formSchema'
-// form inputs - title, source, ingredients, instructions, category 
-const initialErrors = {
-    title: '',
-    source: '',
-    ingredients: '',
-    instructions: '',
-    category: ''
-}
-const initialFormValues = {
-    title: '',
-    source: '',
-    ingredients: '',
-    instructions: '',
-    category: ''
-}
-export default function NewRecipeForm(props) {
-    const {values} = props;
-    const [formValues, setFormValues] = useState(initialFormValues);
-    const [errors, setErrors] = useState(initialErrors);
-    const onChange = (name, value) => {
+import recipeFormSchema from '../validation/recipeFormSchema'
+import {setEditRecipeForm, setEditRecipeErrors, resetEditRecipeForm, setEditRecipeCategory, setEditRecipe} from '../actions/editRecipeActions'
+import {editRecipe} from '../actions/homePageActions'
+import {connect} from 'react-redux'
+    
+function EditRecipeForm(props) {
+    const {values, errors} = props;
+    const handleEdit = (e) => {
+        e.preventDefault();
+        props.setEditRecipe(props.currentRecipe, props.values);
+        props.editRecipe();
+        props.resetEditRecipeForm();
+    }
+    const handleCancel = () => {
+        props.resetEditRecipeForm();
+    }
+    const onChange = (e) => {
+        const {name, value} = e.target
         yup
-            .reach(formSchema, name)
+            .reach(recipeFormSchema, name)
             .validate(value)
             .then(() => {
-                setErrors({...errors, [name]: ''})
+                props.setEditRecipeErrors(name ,'')
             })
             .catch(err => {
-                setErrors({...errors, [name]: err.errors[0]})
+                props.setEditRecipeErrors(name ,err.errors[0])
             })
-            setFormValues({
-                ...formValues,
-                [name]: value
-            })
+            name === 'category' ? props.setEditRecipeCategory(value):
+           props.setEditRecipeForm(name,value);
     }
     return (
-        <form className='new-recipe'>
-            <h3>Edit Your Recipe Here!</h3>
+        <form onSubmit={handleEdit}className='new-recipe'>
+            <h3>Edit your Recipe</h3>
             <div className='errors'>
                 <div>{errors.title}</div>
                 <div>{errors.source}</div>
@@ -45,21 +40,38 @@ export default function NewRecipeForm(props) {
                 <div>{errors.instructions}</div>
                 <div>{errors.category}</div>
             </div>
-            <lable>Title:
+            <label>Title:
                 <input name='title' type='text' value={values.title} onChange={onChange} />
-            </lable>
-            <lable>Source:
+            </label>
+            <label>Source:
                 <input name='source' type='text' value={values.source} onChange={onChange} />
-            </lable>
-            <lable>Ingredients:
+            </label>
+            <label>Ingredients:
                 <input name='ingredients' type='text' value={values.ingredients} onChange={onChange} />
-            </lable>
-            <lable>Instructions:
+            </label>
+            <label>Instructions:
                 <input name='instructions' type='text' value={values.instructions} onChange={onChange} />
-            </lable>
-            <lable>Category:
-                <input name='category' type='text' value={values.category} onChange={onChange} />
-            </lable>
+            </label>
+            <label>Category:
+          <select onChange={onChange} value={values.category.name} name="category">
+            <option value="">- Select an option -</option>
+            <option value={"French"}>French</option>
+            <option value={"Japanese"}>Japanese</option>
+            <option value={"Chinese"}>Chinese</option>
+            <option value={"Spanish"}>Spanish</option>
+            <option value={"Italian"}>Italian</option>
+          </select>
+            </label>
+            <button>Edit recipe</button> 
+            <button onClick={handleCancel}>Cancel</button>
         </form >
     )
 }
+const mapStateToProps = (state) => {
+    return {
+        values: state.editRecipe.formValues,
+        errors: state.editRecipe.errors,
+        currentRecipe: state.homepage.currentRecipe
+    }
+}
+export default connect(mapStateToProps, {setEditRecipeForm, setEditRecipeErrors, resetEditRecipeForm,setEditRecipe, editRecipe, setEditRecipeCategory})(EditRecipeForm)
