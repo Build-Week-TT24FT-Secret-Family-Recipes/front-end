@@ -1,42 +1,29 @@
-import React, {useState} from 'react'
+import React from 'react'
 import * as yup from 'yup'
 import recipeFormSchema from '../validation/recipeFormSchema'
-// form inputs - title, source, ingredients, instructions, category 
-const initialErrors = {
-    title: '',
-    source: '',
-    ingredients: '',
-    instructions: '',
-    category: ''
-}
-const initialFormValues = {
-    title: '',
-    source: '',
-    ingredients: '',
-    instructions: '',
-    category: ''
-}
-export default function NewRecipeForm(props) {
-    const {values} = props;
-    const [formValues, setFormValues] = useState(initialFormValues);
-    const [errors, setErrors] = useState(initialErrors);
-    const onChange = (name, value) => {
+import {setRecipeForm, setRecipeErrors, resetRecipeForm,addRecipe} from '../actions/newRecipeActions'
+import {connect} from 'react-redux'
+function NewRecipeForm(props) {
+    const {values, errors} = props;
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        props.addRecipe(props.values)
+    }
+    const onChange = (e) => {
+        const {name, value} = e.target
         yup
             .reach(recipeFormSchema, name)
             .validate(value)
             .then(() => {
-                setErrors({...errors, [name]: ''})
+                props.setRecipeErrors(name ,'')
             })
             .catch(err => {
-                setErrors({...errors, [name]: err.errors[0]})
+                props.setRecipeErrors(name ,err.errors[0])
             })
-            setFormValues({
-                ...formValues,
-                [name]: value
-            })
+           props.setRecipeForm(name,value);
     }
     return (
-        <form className='new-recipe'>
+        <form onSubmit={handleSubmit}className='new-recipe'>
             <h3>New Recipe</h3>
             <div className='errors'>
                 <div>{errors.title}</div>
@@ -45,21 +32,29 @@ export default function NewRecipeForm(props) {
                 <div>{errors.instructions}</div>
                 <div>{errors.category}</div>
             </div>
-            <lable>Title:
+            <label>Title:
                 <input name='title' type='text' value={values.title} onChange={onChange} />
-            </lable>
-            <lable>Source:
+            </label>
+            <label>Source:
                 <input name='source' type='text' value={values.source} onChange={onChange} />
-            </lable>
-            <lable>Ingredients:
+            </label>
+            <label>Ingredients:
                 <input name='ingredients' type='text' value={values.ingredients} onChange={onChange} />
-            </lable>
-            <lable>Instructions:
+            </label>
+            <label>Instructions:
                 <input name='instructions' type='text' value={values.instructions} onChange={onChange} />
-            </lable>
-            <lable>Category:
+            </label>
+            <label>Category:
                 <input name='category' type='text' value={values.category} onChange={onChange} />
-            </lable>
+            </label>
+            <button>Add recipe</button> 
         </form >
     )
 }
+const mapStateToProps = (state) => {
+    return {
+        values: state.newRecipe.formValues,
+        errors: state.newRecipe.errors,
+    }
+}
+export default connect(mapStateToProps, {setRecipeForm, setRecipeErrors, resetRecipeForm, addRecipe})(NewRecipeForm)
