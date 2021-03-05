@@ -4,7 +4,7 @@ const initialState = {
     username:'',
     password:'',
     error:'',
-    token:false
+    token:true
 }
 
 const loginReducer = (state = initialState, { type, payload }) => {
@@ -16,7 +16,7 @@ const loginReducer = (state = initialState, { type, payload }) => {
     case SET_LOGIN_ERROR:
         return {...state, error:payload}
     case CLEAR_LOGIN_FORM:
-        return initialState
+        return {...state, username:'', password:'', error:''}
     default:
         return state
     }
