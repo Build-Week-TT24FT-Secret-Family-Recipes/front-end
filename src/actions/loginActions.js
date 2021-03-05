@@ -6,7 +6,7 @@ export const CLEAR_LOGIN_FORM = "CLEAR_LOGIN_FORM"
 export const setLoginValues = (value,name) => {
   return { type: SET_LOGIN_VALUES, payload: { name: name, value: value } };
 };
-export const login = (username,password, history) => {
+export const login = (username,password, push) => {
     return dispatch => {
         axios
         .post(
@@ -21,10 +21,9 @@ export const login = (username,password, history) => {
             },
         )
         .then((res) => {
-            console.log(res.data);
             localStorage.setItem("token", res.data.access_token);
             dispatch({type:ON_SUCCESS})
-            history.push("/");
+            push("/");
         })
         .catch((err) => {
             console.log(err.response.data.error_description)
