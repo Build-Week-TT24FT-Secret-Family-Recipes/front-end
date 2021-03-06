@@ -15,6 +15,7 @@ export const getRecipes = () => {
         dispatch({type:START_FETCH})
         axiosWithAuth().get('recipes/recipes')
         .then((res) => {
+            console.log(res.data)
             dispatch({type:GET_RECIPES, payload:res.data})
             dispatch({type:SET_CATEGORY_ID, payload:res.data.map((recipe) => {
                 return recipe.category

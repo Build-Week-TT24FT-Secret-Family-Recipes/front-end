@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Link } from "react-router-dom";
+import { Route, NavLink } from "react-router-dom";
 import Login from "./components/Login";
 import HomePage from './components/HomePage'
 import {Provider} from 'react-redux'
@@ -15,15 +15,15 @@ function App() {
 		<Provider store ={store}>
 		<div className="App">
 			<nav>
-			<Link to ='/'>
+			<NavLink className ='NavLink' to ='/'>
 				Home
-			</Link>
-			<Link to ='/login'>
+			</NavLink>
+			<NavLink className ='NavLink' to ='/login'>
 			Login
-			</Link>
-			<Link to ='/signup'>
+			</NavLink>
+			<NavLink className ='NavLink' to ='/signup'>
 			Signup
-			</Link>
+			</NavLink>
 			</nav>
 			<Route exact path="/" component={HomePage} />
 			<Route exact path='/login' component={Login} />

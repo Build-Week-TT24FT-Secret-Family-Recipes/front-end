@@ -31,7 +31,7 @@ const HomePage = (props) => {
             props.error ? <div>You must be logged in to see recipes</div> :
             <div> 
                 <div>
-            Filter recipes by category :
+            <div>Filter recipes by category :</div>
             <button onClick={() => {handleFilter('French')}}>French</button>
             <button onClick={() => {handleFilter('Japanese')}}>Japanese</button>
             <button onClick={() => {handleFilter('Chinese')}}>Chinese</button>

@@ -27,7 +27,7 @@ body, p, input, select, textarea, button {
 }
 
 div, p {
-  color: #BABECC;
+  color: black;
   text-shadow: 1px 1px 1px #FFF;
 }
 
@@ -55,6 +55,7 @@ button, input {
   padding: 16px;
   background-color:#EBECF0;
   text-shadow: 1px 1px 0 #FFF;
+  margin: .5em ;
 }
 
 label {
@@ -162,4 +163,22 @@ border: unset;
 width: 230px;
 height: 50px;
 background: #EBECF0;
+  }
+  .NavLink{
+    color:#61677C;
+  font-weight: bold;
+  box-shadow: -5px -5px 20px #FFF,  5px 5px 20px #BABECC;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  font-weight: 600;
+  justify-self: center;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  }
+  nav{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+
   }

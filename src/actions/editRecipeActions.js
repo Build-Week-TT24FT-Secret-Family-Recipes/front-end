@@ -27,9 +27,10 @@ export const resetEditRecipeForm = () => {
 return {type:RESET_EDIT_RECIPE_FORM}
 }
 export const setEditRecipe = (recipeid, values) => {
-   
+    const test = {recipeid:recipeid, ...values}
+        console.log(test)
     return (dispatch) => {
-        axiosWithAuth().put(`/recipes/recipe/${recipeid}`, values)
+        axiosWithAuth().put(`/recipes/recipe/${recipeid}`, test)
         .then((res) => {
             dispatch(getRecipes())
         })
