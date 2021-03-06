@@ -1,4 +1,6 @@
+
 import {GET_RECIPES, START_FETCH, FETCH_FAIL, SET_NEW_RECIPE, SET_BUTTON, SET_HOME_ERROR, GET_TOKEN, EDIT_RECIPE, SET_CATEGORY_ID, FILTER_RECIPES} from '../actions/homePageActions'
+
 
 const initialState = {
     recipes:[],
@@ -13,7 +15,6 @@ const initialState = {
     categoryid:[],
     toggleFiltered: false
 }
-
  const homePageReducer = (state = initialState, action) => {
     switch (action.type) {
     case START_FETCH : 
